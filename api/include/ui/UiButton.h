@@ -11,13 +11,16 @@
 #include <SFML/Graphics/Transformable.hpp>
 #include <SFML/Window/Event.hpp>
 
+#include "graphics/RessourceManager.h"
+
 
 class UiButton : public sf::Drawable, public sf::Transformable
 {
 
 private:
 	sf::Font font_;
-	sf::Texture texture_;
+	//sf::Texture texture_;
+	ResourceManager resource_manager_;
 
 	//sf::RectangleShape background_;
 	sf::Sprite sprite_;

@@ -4,6 +4,8 @@
 
 #include <SFML/Graphics/RenderTarget.hpp>
 
+#include "graphics/RessourceManager.h"
+
 
 UiButton::UiButton(sf::Vector2f position, sf::Color colorBase)
 {
@@ -12,7 +14,8 @@ UiButton::UiButton(sf::Vector2f position, sf::Color colorBase)
 
 	// Declare and load a font
 	font_.loadFromFile("../resources/fonts/arial.ttf");
-	texture_.loadFromFile("../resources/sprites/yellow_button00.png");
+	//texture_.loadFromFile("../resources/sprites/yellow_button00.png");
+	
 
 	// Create a text
 	text_ = sf::Text("hello", font_);
@@ -22,8 +25,8 @@ UiButton::UiButton(sf::Vector2f position, sf::Color colorBase)
 	text_.setOrigin(textBounds.left + textBounds.width / 2.0f, textBounds.top + textBounds.height / 2.0f);
 
 	//sf::FloatRect texSize = sf::FloatRect(texture_.get);
-	sprite_.setTexture(texture_);
-	sprite_.setOrigin(texture_.getSize().x / 2.0f, texture_.getSize().y / 2.0f);
+	sprite_.setTexture(ResourceManager::Get().GetTexture(ResourceManager::Resource::YellowFrame));
+	sprite_.setOrigin(sprite_.getTexture()->getSize().x / 2.0f, sprite_.getTexture()->getSize().y / 2.0f);
 	sprite_.setColor(sf::Color::White);
 
 	//initialScale_ = sf::Vector2f(0.5f, 0.5f);
