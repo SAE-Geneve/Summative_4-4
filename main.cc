@@ -7,7 +7,7 @@ int main()
     // create the window
     sf::RenderWindow window(sf::VideoMode(800, 600), "My window");
 
-    UiButton startButton;
+    UiButton startButton(sf::Vector2f(100,50), sf::Vector2f(400,100), sf::Color::Yellow);
 
     // run the program as long as the window is open
     while (window.isOpen())

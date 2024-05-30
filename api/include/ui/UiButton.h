@@ -4,6 +4,7 @@
 
 #include <SFML/Graphics/Drawable.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
+#include <SFML/Graphics/Text.hpp>
 #include <SFML/Graphics/Transformable.hpp>
 #include <SFML/Window/Event.hpp>
 
@@ -12,11 +13,14 @@ class UiButton : public sf::Drawable, public sf::Transformable
 
 private:
 	sf::RectangleShape background_;
+	sf::Text text_;
+	sf::Font font_;
 
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
+	bool ContainsMouse(const sf::Event& event);
 
 public:
-	UiButton();
+	UiButton(sf::Vector2f size, sf::Vector2f position, sf::Color colorBase);
 	void HandleEvent(const sf::Event& event);
 
 };
