@@ -68,8 +68,13 @@ void UiButton::HandleEvent(const sf::Event& event)
 		{
 			// Check if the left mouse button is pressed
 			if (event.mouseButton.button == sf::Mouse::Left) {
-
-				std::cout << "Mouse clicked inside the shape." << std::endl;
+				// Code à faire pour le bouton ---------------------------------------------------
+				if (callback_) {
+					callback_();
+				}else
+				{
+					std::cout << "No callback defined...";
+				}
 			}
 		}
 	}

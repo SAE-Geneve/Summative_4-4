@@ -2,6 +2,8 @@
 #ifndef API_UI_UIBUTTON_H_
 #define API_UI_UIBUTTON_H_
 
+#include <functional>
+
 #include <SFML/Graphics/Drawable.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/Sprite.hpp>
@@ -28,7 +30,7 @@ public:
 	UiButton(sf::Vector2f position, sf::Color colorBase);
 	void HandleEvent(const sf::Event& event);
 
-	//void setScale(float factorX, float factorY);
+	std::function<void()> callback_;
 
 };
 
