@@ -27,7 +27,7 @@ UiButton::UiButton(sf::Vector2f position, sf::Color colorBase)
 	//sf::FloatRect texSize = sf::FloatRect(texture_.get);
 	sprite_.setTexture(ResourceManager::Get().GetTexture(ResourceManager::Resource::YellowFrame));
 	sprite_.setOrigin(sprite_.getTexture()->getSize().x / 2.0f, sprite_.getTexture()->getSize().y / 2.0f);
-	sprite_.setColor(sf::Color::White);
+	sprite_.setColor(colorBase);
 
 	//initialScale_ = sf::Vector2f(0.5f, 0.5f);
 

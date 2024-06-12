@@ -2,7 +2,7 @@
 #define API_GRAPHICS_RESOURCEMANAGER_H
 
 #include <SFML/Graphics.hpp>
-#include <unordered_map>
+#include <vector>
 #include <string>
 
 class ResourceManager {
@@ -11,11 +11,15 @@ public:
 	enum class Resource
 	{
 		YellowFrame,
-		TerrainGround
+		TerrainGround,
+		TerrainForest,
+
+		// Last value of enum used to get the number of resources
+		Max
 	};
 
 private:
-	std::unordered_map<Resource, sf::Texture> textures_;
+	std::vector<sf::Texture> textures_;
 	sf::Texture blankTexture_;
 
 	void LoadAllTextures();

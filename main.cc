@@ -4,12 +4,14 @@
 #include "ui/UiButton.h"
 #include "graphics/Tilemap.h"
 
+//int n = 0;
 
 int main()
 {
-    Tilemap map = Tilemap(sf::Vector2u(10, 10));
-    int n = 0;
 
+    Tilemap map;
+    map.Setup(sf::Vector2u(25, 25), sf::Vector2u(18, 18));
+    
     // create the window
     sf::RenderWindow window(sf::VideoMode(800, 600), "My window");
 
@@ -25,17 +27,18 @@ int main()
     // Option B : std::bind
     startButton.callback_ = std::bind(&Tilemap::Generate, &map);
 
-    // anyway generate
-    map.Generate();
-
+    // Option C : use a lambda which alternates between two callbacks. No real use case, just for fun
     //startButton.callback_ = [&n] () {
     //    n++;
     //    if (n % 2)
     //        std::cout << "callback 1 !!!!!!!!!!!!!!!!" << std::endl;
     //    else
     //        std::cout << "callback 2 !!!!!!!!!!!!!!!!" << std::endl;
-
     //};
+
+    // anyway generate
+    map.Generate();
+
 
     // run the program as long as the window is open
     while (window.isOpen())
@@ -51,8 +54,6 @@ int main()
             // Handle UI Events
             startButton.HandleEvent(event);
         }
-
-
 
         // clear the window with black color
         window.clear(sf::Color::Black);

@@ -8,26 +8,27 @@
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/System/Vector2.hpp>
 
-class Tilemap : public sf::Drawable
+#include "Tile.h"
+
+class Tilemap final : public sf::Drawable
 {
 	
 public:
 
-	static sf::Vector2u playground_size_u_;
-	static sf::Vector2u playground_tile_offset_u_;
+	sf::Vector2u playground_size_u_;
+	sf::Vector2u playground_tile_offset_u_;
 
-	Tilemap(sf::Vector2u size)
+	void Setup(sf::Vector2u playground_size_u, sf::Vector2u playground_tile_offset_u);
+
+	Tilemap()
 	{
-		tiles_.reserve(size.x * size.y);
+		//tiles_.reserve(playground_size_u_.x * playground_size_u_.y);
 	}	
 
 	void Generate();
 
-
-	Tilemap() = default;
-
 private:
-	std::vector<sf::Sprite> tiles_;
+	std::vector<Tile> tiles_;
 
 protected:
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
