@@ -1,10 +1,10 @@
-#include <ui/UiButton.h>
 
 #include <iostream>
 
 #include <SFML/Graphics/RenderTarget.hpp>
 
 #include "graphics/RessourceManager.h"
+#include <ui/UiButton.h>
 
 
 UiButton::UiButton(sf::Vector2f position, sf::Color colorBase, std::string text)
@@ -25,7 +25,7 @@ UiButton::UiButton(sf::Vector2f position, sf::Color colorBase, std::string text)
 	text_.setOrigin(textBounds.left + textBounds.width / 2.0f, textBounds.top + textBounds.height / 2.0f);
 
 	//sf::FloatRect texSize = sf::FloatRect(texture_.get);
-	sprite_.setTexture(ResourceManager::Get().GetTexture(ResourceManager::Resource::YellowFrame));
+	sprite_.setTexture(ResourceManager::Get().GetTexture(ResourceManager::Resource::btnFrame));
 	sprite_.setOrigin(sprite_.getTexture()->getSize().x / 2.0f, sprite_.getTexture()->getSize().y / 2.0f);
 	sprite_.setColor(colorBase);
 
@@ -43,7 +43,7 @@ void UiButton::draw(sf::RenderTarget& target, sf::RenderStates states) const
 
 }
 
-bool UiButton::ContainsMouse(const sf::Event& event)
+bool UiButton::ContainsMouse(const sf::Event& event) const
 {
 	// Get the position of the mouse click
 	float mouseX = static_cast<float>(event.mouseButton.x) - getPosition().x;

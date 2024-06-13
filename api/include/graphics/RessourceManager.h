@@ -10,9 +10,11 @@ class ResourceManager {
 public:
 	enum class Resource
 	{
-		YellowFrame,
+		btnFrame,
 		TerrainGround,
 		TerrainForest,
+		Building_House,
+		Building_Shop,
 
 		// Last value of enum used to get the number of resources
 		Max
@@ -22,16 +24,12 @@ private:
 	std::vector<sf::Texture> textures_;
 	sf::Texture blankTexture_;
 
+	ResourceManager();
 	void LoadAllTextures();
 
 public:
-	static ResourceManager& Get() {
-		static ResourceManager instance_;
-		return instance_;
-	}
-
+	static ResourceManager& Get();
 	
-	ResourceManager();
 	ResourceManager(const ResourceManager&) = delete;
 	ResourceManager& operator=(const ResourceManager&) = delete;
 

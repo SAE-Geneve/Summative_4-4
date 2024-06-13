@@ -18,9 +18,10 @@ int main()
     ChangeCursor::BasicCursor(window);
 
     Tilemap map;
-    map.Setup(sf::Vector2u(1024 / 18, 768 / 18), sf::Vector2u(18, 18));
+    map.Setup(sf::Vector2u(1024 / 64, 768 / 64), sf::Vector2u(64, 64));
     // anyway generate
     map.Generate();
+    map.ClickedTile = std::bind(&BuildingManager::AddBuilding, &building_manager, std::placeholders::_1);
 
     UiButton btn_generate(sf::Vector2f(50,710), sf::Color::Yellow, "Generate");
     btn_generate.setScale(0.5f, 0.5f);
@@ -73,6 +74,7 @@ int main()
             // Handle UI Events
             btn_generate.HandleEvent(event);
             btn_activate_building.HandleEvent(event);
+            map.HandleEvent(event);
         }
 
         // clear the window with black color
@@ -80,6 +82,7 @@ int main()
 
         // draw everything here...
         window.draw(map);
+        window.draw(building_manager);
         window.draw(btn_generate);
         window.draw(btn_activate_building);
         
