@@ -30,7 +30,7 @@ private:
 	bool ContainsMouse(const sf::Event& event);
 
 public:
-	UiButton(sf::Vector2f position, sf::Color colorBase);
+	UiButton(sf::Vector2f position, sf::Color colorBase, std::string text);
 	void HandleEvent(const sf::Event& event);
 
 	std::function<void()> callback_;

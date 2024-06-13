@@ -7,7 +7,7 @@
 #include "graphics/RessourceManager.h"
 
 
-UiButton::UiButton(sf::Vector2f position, sf::Color colorBase)
+UiButton::UiButton(sf::Vector2f position, sf::Color colorBase, std::string text)
 {
 
 	setPosition(position);
@@ -18,7 +18,7 @@ UiButton::UiButton(sf::Vector2f position, sf::Color colorBase)
 	
 
 	// Create a text
-	text_ = sf::Text("hello", font_);
+	text_ = sf::Text(text, font_);
 	text_.setCharacterSize(18);
 	text_.setFillColor(sf::Color::Black);
 	sf::FloatRect textBounds = text_.getLocalBounds();
@@ -65,10 +65,10 @@ void UiButton::HandleEvent(const sf::Event& event)
 	// Check for mouse button pressed event
 	if (event.type == sf::Event::MouseButtonReleased) {
 
-		setScale(getScale().x / 0.9f, getScale().y / 0.9f);
-
 		if (ContainsMouse(event))
 		{
+			setScale(getScale().x / 0.9f, getScale().y / 0.9f);
+
 			// Check if the left mouse button is pressed
 			if (event.mouseButton.button == sf::Mouse::Left) {
 				// Code à faire pour le bouton ---------------------------------------------------

@@ -1,6 +1,8 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 
+#include "gameplay/building_manager.h"
+#include "gameplay/change_cursor.h"
 #include "ui/UiButton.h"
 #include "graphics/Tilemap.h"
 
@@ -9,23 +11,44 @@
 int main()
 {
 
-    Tilemap map;
-    map.Setup(sf::Vector2u(25, 25), sf::Vector2u(18, 18));
-    
-    // create the window
-    sf::RenderWindow window(sf::VideoMode(800, 600), "My window");
+    BuildingManager building_manager;
 
-    UiButton startButton(sf::Vector2f(400,100), sf::Color::Yellow);
-    startButton.setScale(0.75f, 0.75f);
+    // create the window
+    sf::RenderWindow window(sf::VideoMode(1024, 768), "My window");
+    ChangeCursor::BasicCursor(window);
+
+    Tilemap map;
+    map.Setup(sf::Vector2u(1024 / 18, 768 / 18), sf::Vector2u(18, 18));
+    // anyway generate
+    map.Generate();
+
+    UiButton btn_generate(sf::Vector2f(50,710), sf::Color::Yellow, "Generate");
+    btn_generate.setScale(0.5f, 0.5f);
 
     // Fix 2 : attach a method or member function can not be directly assigned
     // use a lambda or std::bind
     // Option A : lambda
-    startButton.callback_ = [&map] (){
+    btn_generate.callback_ = [&map] (){
         map.Generate();
     };
     // Option B : std::bind
-    startButton.callback_ = std::bind(&Tilemap::Generate, &map);
+    btn_generate.callback_ = std::bind(&Tilemap::Generate, &map);
+
+    UiButton btn_activate_building(sf::Vector2f(200, 710), sf::Color::Yellow, "Build");
+    btn_activate_building.setScale(0.5f, 0.5f);
+    btn_activate_building.callback_ = [&building_manager, &window]()
+        {
+            if (building_manager.GetActive())
+            {
+                building_manager.SetActive(false);
+                ChangeCursor::BasicCursor(window);
+            }
+            else
+            {
+                building_manager.SetActive(true);
+                ChangeCursor::BuildingCursor(window);
+            }
+        };
 
     // Option C : use a lambda which alternates between two callbacks. No real use case, just for fun
     //startButton.callback_ = [&n] () {
@@ -35,10 +58,6 @@ int main()
     //    else
     //        std::cout << "callback 2 !!!!!!!!!!!!!!!!" << std::endl;
     //};
-
-    // anyway generate
-    map.Generate();
-
 
     // run the program as long as the window is open
     while (window.isOpen())
@@ -52,7 +71,8 @@ int main()
                 window.close();
 
             // Handle UI Events
-            startButton.HandleEvent(event);
+            btn_generate.HandleEvent(event);
+            btn_activate_building.HandleEvent(event);
         }
 
         // clear the window with black color
@@ -60,7 +80,8 @@ int main()
 
         // draw everything here...
         window.draw(map);
-        window.draw(startButton);
+        window.draw(btn_generate);
+        window.draw(btn_activate_building);
         
         // end the current frame
         window.display();
