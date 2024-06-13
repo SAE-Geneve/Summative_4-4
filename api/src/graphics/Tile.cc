@@ -42,11 +42,11 @@ sf::Texture& Tile::GetFromType()
 	switch (type_)
 	{
 	case TileType::kForest:
-		return ResourceManager::Get().GetTexture(ResourceManager::Resource::TerrainForest);
+		return ResourceManager::Get().GetTexture(ResourceManager::Texture::kTerrainForest);
 		break;
 
 	case TileType::kGround:
-		return ResourceManager::Get().GetTexture(ResourceManager::Resource::TerrainGround);
+		return ResourceManager::Get().GetTexture(ResourceManager::Texture::kTerrainGround);
 		break;
 
 	}

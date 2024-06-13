@@ -5,27 +5,42 @@
 #include <vector>
 #include <string>
 
-class ResourceManager {
+class ResourceManager {  // NOLINT(cppcoreguidelines-special-member-functions)
 
 public:
-	enum class Resource
+	enum class Texture
 	{
-		btnFrame,
-		TerrainGround,
-		TerrainForest,
-		Building_House,
-		Building_Shop,
+		kBtnFrame,
+		kTerrainGround,
+		kTerrainForest,
+		kBuildingHouse,
+		kBuildingShop,
+		kBuildingMill_01,
+		kBuildingMill_02,
+		kBuildingMill_03,
 
 		// Last value of enum used to get the number of resources
-		Max
+		kMax
+	};
+	enum class CursorImage
+	{
+		kBasic,
+		kBuild,
+
+		// Last value of enum used to get the number of resources
+		kMax
 	};
 
 private:
 	std::vector<sf::Texture> textures_;
-	sf::Texture blankTexture_;
+	std::vector<sf::Image> cursor_images_;
+
+	sf::Texture blank_texture_;
+	sf::Image blank_cursor_image_;
 
 	ResourceManager();
-	void LoadAllTextures();
+	void LoadTextures();
+	void LoadCursors();
 
 public:
 	static ResourceManager& Get();
@@ -33,7 +48,8 @@ public:
 	ResourceManager(const ResourceManager&) = delete;
 	ResourceManager& operator=(const ResourceManager&) = delete;
 
-	sf::Texture& GetTexture(Resource resourceId);
+	sf::Texture& GetTexture(Texture resource_id);
+	sf::Image& GetCursor(CursorImage cursor_id);
 
 };
 

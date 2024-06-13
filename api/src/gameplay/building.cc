@@ -6,7 +6,7 @@
 
 Building::Building(float x, float y)
 {
-	shape_.setTexture(ResourceManager::Get().GetTexture(ResourceManager::Resource::Building_House));
+	shape_.setTexture(ResourceManager::Get().GetTexture(ResourceManager::Texture::kBuildingHouse));
 	shape_.setPosition(x, y);
 }
 

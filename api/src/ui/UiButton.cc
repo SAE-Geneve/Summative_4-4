@@ -25,7 +25,7 @@ UiButton::UiButton(sf::Vector2f position, sf::Color colorBase, std::string text)
 	text_.setOrigin(textBounds.left + textBounds.width / 2.0f, textBounds.top + textBounds.height / 2.0f);
 
 	//sf::FloatRect texSize = sf::FloatRect(texture_.get);
-	sprite_.setTexture(ResourceManager::Get().GetTexture(ResourceManager::Resource::btnFrame));
+	sprite_.setTexture(ResourceManager::Get().GetTexture(ResourceManager::Texture::kBtnFrame));
 	sprite_.setOrigin(sprite_.getTexture()->getSize().x / 2.0f, sprite_.getTexture()->getSize().y / 2.0f);
 	sprite_.setColor(colorBase);
 

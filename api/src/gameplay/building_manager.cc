@@ -20,7 +20,7 @@ void BuildingManager::draw(sf::RenderTarget& target, sf::RenderStates states) co
 	}
 }
 
-void BuildingManager::AddBuilding(Tile& tile)
+void BuildingManager::AddBuilding(const Tile& tile)
 {
 	if(!is_active_)
 	{

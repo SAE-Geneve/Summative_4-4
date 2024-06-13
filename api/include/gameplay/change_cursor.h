@@ -5,18 +5,17 @@
 #include <SFML/Window/Cursor.hpp>
 #include <SFML/Window/Window.hpp>
 
+#include "graphics/RessourceManager.h"
+
 class ChangeCursor
 {
 
 public:
 	static void BasicCursor(sf::Window& window)
 	{
-		// TO DO : Move cursor to ressource manager
-		sf::Image image;
-		image.loadFromFile("../resources/sprites/pointer_scifi_a.png");
-
+		const sf::Image image = ResourceManager::Get().GetCursor(ResourceManager::CursorImage::kBasic);
 		sf::Cursor cursor;
-		cursor.loadFromPixels(image.getPixelsPtr(), image.getSize(), sf::Vector2u(0,0));
+		cursor.loadFromPixels(image.getPixelsPtr(), image.getSize(), sf::Vector2u(0, 0));
 
 		window.setMouseCursor(cursor);
 
@@ -24,15 +23,11 @@ public:
 
 	static void BuildingCursor(sf::Window& window)
 	{
-		// TO DO : Move cursor to ressource manager
-		sf::Image image;
-		image.loadFromFile("../resources/sprites/tool_hammer.png");
-
+		const sf::Image image = ResourceManager::Get().GetCursor(ResourceManager::CursorImage::kBuild);
 		sf::Cursor cursor;
-		cursor.loadFromPixels(image.getPixelsPtr(), image.getSize(), sf::Vector2u(0,0));
+		cursor.loadFromPixels(image.getPixelsPtr(), image.getSize(), sf::Vector2u(0, 0));
 
 		window.setMouseCursor(cursor);
-
 	}
 
 };
