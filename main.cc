@@ -34,7 +34,7 @@ int main()
         map.Generate();
     };
     // Option B : std::bind
-    btn_generate.callback_ = std::bind(&Tilemap::Generate, &map);
+    //btn_generate.callback_ = std::bind(&Tilemap::Generate, &map);
 
     UiButton bt_add_house(sf::Vector2f(200, 710), sf::Color::Yellow, "House");
     bt_add_house.setScale(0.5f, 0.5f);
@@ -79,16 +79,9 @@ int main()
     //        std::cout << "callback 2 !!!!!!!!!!!!!!!!" << std::endl;
     //};
 
-
-    Woodsman woodsman(0, 0, 2 * 64);
-    woodsman.set_destination(400.0f, 400.0f);
-
     // run the program as long as the window is open
     while (window.isOpen())
     {
-
-        // Tick entities
-        woodsman.Tick();
 
     	// check all the window's events that were triggered since the last iteration of the loop
         sf::Event event;
@@ -114,7 +107,7 @@ int main()
         window.draw(btn_generate);
     	window.draw(bt_add_house);
     	window.draw(bt_add_mill);
-    	window.draw(woodsman);
+    	//window.draw(woodsman);
         
         // end the current frame
         window.display();

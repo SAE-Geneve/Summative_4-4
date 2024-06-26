@@ -36,10 +36,10 @@ void Walker::Tick()
 	const sf::Vector2f actual_position = getPosition();
 	const sf::Vector2f direction = Normalized(destination_ - actual_position);
 
-	setPosition(
-		actual_position + sf::Vector2f(direction.x * linear_speed_ * elapsed_seconds.count(),
-			direction.y * linear_speed_ * elapsed_seconds.count())
-	);
+	setPosition(actual_position + sf::Vector2f(
+		direction.x * linear_speed_ * elapsed_seconds.count(),
+		direction.y * linear_speed_ * elapsed_seconds.count()
+	));
 
 	std::cout << "Position [" << getPosition().x << ":" << getPosition().y << "]" << std::endl;
 
