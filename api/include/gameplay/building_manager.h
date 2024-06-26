@@ -1,5 +1,5 @@
-#ifndef BUILDING_MANAGER_H_
-#define BUILDING_MANAGER_H_
+#ifndef API_GAMEPLAY_BUILDING_MANAGER_H_
+#define API_GAMEPLAY_BUILDING_MANAGER_H_
 
 #include <graphics/Tile.h>
 
@@ -14,7 +14,8 @@ private:
 	std::vector<Building> buildings_;
 
 public :
-	void AddBuilding(const Tile& tile);
+	void AddHouse(const Tile& tile);
+	void AddMill(const Tile& tile);
 	void SetActive(bool active);
 	bool GetActive() const;
 

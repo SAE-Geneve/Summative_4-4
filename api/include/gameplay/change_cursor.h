@@ -1,11 +1,11 @@
-#ifndef CURSOR_H
-#define CURSOR_H
+#ifndef API_GAMEPLAY_CURSOR_H
+#define API_GAMEPLAY_CURSOR_H
 
 #include <SFML/Graphics/Image.hpp>
 #include <SFML/Window/Cursor.hpp>
 #include <SFML/Window/Window.hpp>
 
-#include "graphics/RessourceManager.h"
+#include "graphics/ressource_manager.h"
 
 class ChangeCursor
 {

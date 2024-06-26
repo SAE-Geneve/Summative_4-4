@@ -3,8 +3,9 @@
 
 #include "gameplay/building_manager.h"
 #include "gameplay/change_cursor.h"
-#include "ui/UiButton.h"
-#include "graphics/Tilemap.h"
+#include "gameplay/woods_man.h"
+#include "ui/ui_button.h"
+#include "graphics/tilemap.h"
 
 //int n = 0;
 
@@ -21,10 +22,10 @@ int main()
     map.Setup(sf::Vector2u(1024 / 64, 768 / 64), sf::Vector2u(64, 64));
     // anyway generate
     map.Generate();
-    map.ClickedTile = std::bind(&BuildingManager::AddBuilding, &building_manager, std::placeholders::_1);
 
     UiButton btn_generate(sf::Vector2f(50,710), sf::Color::Yellow, "Generate");
     btn_generate.setScale(0.5f, 0.5f);
+    //map.ClickedTile = std::bind(&BuildingManager::AddHouse, &building_manager, std::placeholders::_1);
 
     // Fix 2 : attach a method or member function can not be directly assigned
     // use a lambda or std::bind
@@ -35,9 +36,9 @@ int main()
     // Option B : std::bind
     btn_generate.callback_ = std::bind(&Tilemap::Generate, &map);
 
-    UiButton btn_activate_building(sf::Vector2f(200, 710), sf::Color::Yellow, "Build");
-    btn_activate_building.setScale(0.5f, 0.5f);
-    btn_activate_building.callback_ = [&building_manager, &window]()
+    UiButton bt_add_house(sf::Vector2f(200, 710), sf::Color::Yellow, "House");
+    bt_add_house.setScale(0.5f, 0.5f);
+    bt_add_house.callback_ = [&building_manager, &window, &map]()
         {
             if (building_manager.GetActive())
             {
@@ -47,6 +48,24 @@ int main()
             else
             {
                 building_manager.SetActive(true);
+                map.ClickedTile = std::bind(&BuildingManager::AddHouse, &building_manager, std::placeholders::_1);
+                ChangeCursor::BuildingCursor(window);
+            }
+        };
+
+    UiButton bt_add_mill(sf::Vector2f(300, 710), sf::Color::Yellow, "Mill");
+    bt_add_mill.setScale(0.5f, 0.5f);
+    bt_add_mill.callback_ = [&building_manager, &window, &map]()
+        {
+            if (building_manager.GetActive())
+            {
+                building_manager.SetActive(false);
+                ChangeCursor::BasicCursor(window);
+            }
+            else
+            {
+                building_manager.SetActive(true);
+                map.ClickedTile = std::bind(&BuildingManager::AddMill, &building_manager, std::placeholders::_1);
                 ChangeCursor::BuildingCursor(window);
             }
         };
@@ -60,10 +79,18 @@ int main()
     //        std::cout << "callback 2 !!!!!!!!!!!!!!!!" << std::endl;
     //};
 
+
+    Woodsman woodsman(0, 0, 2 * 64);
+    woodsman.set_destination(400.0f, 400.0f);
+
     // run the program as long as the window is open
     while (window.isOpen())
     {
-        // check all the window's events that were triggered since the last iteration of the loop
+
+        // Tick entities
+        woodsman.Tick();
+
+    	// check all the window's events that were triggered since the last iteration of the loop
         sf::Event event;
         while (window.pollEvent(event))
         {
@@ -73,7 +100,8 @@ int main()
 
             // Handle UI Events
             btn_generate.HandleEvent(event);
-            btn_activate_building.HandleEvent(event);
+            bt_add_house.HandleEvent(event);
+            bt_add_mill.HandleEvent(event);
             map.HandleEvent(event);
         }
 
@@ -84,7 +112,9 @@ int main()
         window.draw(map);
         window.draw(building_manager);
         window.draw(btn_generate);
-        window.draw(btn_activate_building);
+    	window.draw(bt_add_house);
+    	window.draw(bt_add_mill);
+    	window.draw(woodsman);
         
         // end the current frame
         window.display();

@@ -3,6 +3,9 @@
 
 #include <gameplay/building_manager.h>
 
+#include "gameplay/house.h"
+#include "gameplay/mill.h"
+
 void BuildingManager::SetActive(bool active)
 {
 	is_active_ = active;
@@ -20,7 +23,7 @@ void BuildingManager::draw(sf::RenderTarget& target, sf::RenderStates states) co
 	}
 }
 
-void BuildingManager::AddBuilding(const Tile& tile)
+void BuildingManager::AddHouse(const Tile& tile)
 {
 	if(!is_active_)
 	{
@@ -31,8 +34,26 @@ void BuildingManager::AddBuilding(const Tile& tile)
 
 	if(tile.Type() == Tile::TileType::kGround)
 	{
-		buildings_.emplace_back(tile.Position().x, tile.Position().y);
+		House newHouse(tile.Position().x, tile.Position().y);
+		buildings_.emplace_back(newHouse);
 	}
 
+}
+
+void BuildingManager::AddMill(const Tile& tile)
+{
+
+	if (!is_active_)
+	{
+		return;
+	}
+
+	std::cout << "Tile clicked, can we finally add a house ? [" << tile.Position().x << ":" << tile.Position().y << "]" << std::endl;
+
+	if (tile.Type() == Tile::TileType::kGround)
+	{
+		Mill newMill(tile.Position().x, tile.Position().y);
+		buildings_.emplace_back(newMill);
+	}
 }
 

@@ -2,8 +2,8 @@
 #include <SFML/Graphics/RenderTarget.hpp>
 
 #include "graphics/Tilemap.h"
-#include "graphics/RessourceManager.h"
-#include "../../../core/include/maths/PerlinNoise.h"
+#include "graphics/ressource_manager.h"
+#include "../../../core/include/maths/perlin_noise.h"
 
 //// Fix 1 : initiate static in the cc file
 //sf::Vector2u Tilemap::playground_size_u_ = sf::Vector2u(15, 10);
@@ -15,6 +15,7 @@ void Tilemap::Setup(sf::Vector2u playground_size_u, sf::Vector2u playground_tile
 {
 	playground_size_u_ = playground_size_u;
 	playground_tile_offset_u_ = playground_tile_offset_u;
+	tileSelected_ = nullptr;
 }
 
 
@@ -87,7 +88,7 @@ void Tilemap::HandleEvent(const sf::Event& event)
 		// Check if the left mouse button is pressed
 		if (event.mouseButton.button == sf::Mouse::Left) {
 			// Code à faire pour le bouton ---------------------------------------------------
-			if (ClickedTile && tileSelected_) {
+			if (ClickedTile && tileSelected_!=nullptr) {
 				ClickedTile(*tileSelected_);
 			}
 			else

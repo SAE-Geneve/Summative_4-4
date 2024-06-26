@@ -1,17 +1,18 @@
-#ifndef BUILDING_H
-#define BUILDING_H
-#include <SFML/Graphics/Sprite.hpp>
+#ifndef API_GAMEPLAY_BUILDING_H
+#define API_GAMEPLAY_BUILDING_H
 
-class Building : public sf::Drawable{
+#include "graphics/sprite_entity.h"
+
+class Building : public SpriteEntity {
 
 public:
-	Building(float x, float y);
+	Building(float x, float y) : SpriteEntity(x,y)
+	{
+		
+	}
 
 protected:
-	void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
-
-private:
-	sf::Sprite shape_;
+	void DefineTexture() override;
 
 };
 

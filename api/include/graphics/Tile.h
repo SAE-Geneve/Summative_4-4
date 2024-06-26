@@ -5,7 +5,7 @@
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/RenderTarget.hpp>
 
-#include "graphics/RessourceManager.h"
+#include "graphics/ressource_manager.h"
 
 class Tile : public sf::Drawable {
 
