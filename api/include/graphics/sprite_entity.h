@@ -12,6 +12,7 @@ public:
 
 protected:
 	sf::Sprite shape_;
+	sf::RectangleShape rect_;
 
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 

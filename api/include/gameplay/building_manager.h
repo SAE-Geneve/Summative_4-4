@@ -14,8 +14,8 @@ private:
 	std::vector<Building> buildings_;
 
 public :
-	void AddHouse(const Tile& tile);
-	void AddMill(const Tile& tile);
+	void AddHouse(Tile& tile);
+	void AddMill(Tile& tile);
 	void SetActive(bool active);
 	bool GetActive() const;
 

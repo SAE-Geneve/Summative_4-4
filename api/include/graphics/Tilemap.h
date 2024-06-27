@@ -21,6 +21,7 @@ public:
 	Tilemap() = default;
 
 	void Generate();
+	std::vector<sf::Vector2f> GetWalkables();
 
 	std::function<void(Tile&)> ClickedTile;
 

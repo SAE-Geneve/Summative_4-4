@@ -4,6 +4,10 @@
 Woodsman::Woodsman(float x, float y, float linear_speed) : Walker(x,y, linear_speed)
 {
 	DefineTexture();
+
+	rect_.setPosition(shape_.getGlobalBounds().getPosition());
+	rect_.setSize(shape_.getGlobalBounds().getSize());
+
 }
 
 void Woodsman::DefineTexture()

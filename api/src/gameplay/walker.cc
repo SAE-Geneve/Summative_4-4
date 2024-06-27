@@ -23,28 +23,60 @@ void Walker::set_linear_speed(float linear_speed)
 	linear_speed_ = linear_speed;
 }
 
+void Walker::set_path(const Path path)
+{
+	path_ = path;
+}
+
 void Walker::Tick()
 {
+	// Delta Time ----------------
 	const auto now{ std::chrono::steady_clock::now() };
 	const std::chrono::duration<float> elapsed_seconds{ now - last_time_ };
 	last_time_ = std::chrono::steady_clock::now();
 
-	auto delta_time = elapsed_seconds;
+	if (path_.IsEnded())
+	{
+		std::cout << "Path finished" << std::endl;
+	}
 
-	std::cout << "Delta time ? : " << elapsed_seconds << std::endl;
+	if (path_.IsAvailable())
+	{
+		// Positionning -------------------------------
+		const sf::Vector2f actual_position = getPosition();
+		const sf::Vector2f direction = Normalized(destination_ - actual_position);
+		sf::Vector2f new_position = sf::Vector2f(0, 0);
 
-	const sf::Vector2f actual_position = getPosition();
-	const sf::Vector2f direction = Normalized(destination_ - actual_position);
+		if(Magnitude(destination_ - actual_position) < 0.01f * 64)
+		{
+			std::cout << "Destination reached" << std::endl;
+			new_position = destination_;
+			destination_ = path_.GetNextStep();
+			
 
-	setPosition(actual_position + sf::Vector2f(
-		direction.x * linear_speed_ * elapsed_seconds.count(),
-		direction.y * linear_speed_ * elapsed_seconds.count()
-	));
+		}else
+		{
+			new_position = actual_position + sf::Vector2f(
+				direction.x * linear_speed_ * elapsed_seconds.count(),
+				direction.y * linear_speed_ * elapsed_seconds.count()
+			);
 
-	std::cout << "Position [" << getPosition().x << ":" << getPosition().y << "]" << std::endl;
+			std::cout << "Position [" << new_position.x << ":" << new_position.y << "]" << std::endl;
 
-	// Update sprite position
-	shape_.setPosition(getPosition());
+		}
+	
+		// Update positions ---------------------------
+		setPosition(new_position);
+		shape_.setPosition(new_position);
+		rect_.setPosition(new_position);
+
+	}
+	else
+	{
+		//std::cout << "No path available" << std::endl;
+	}
+
+	
 
 }
 

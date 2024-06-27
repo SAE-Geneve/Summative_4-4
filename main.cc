@@ -6,6 +6,7 @@
 #include "gameplay/woods_man.h"
 #include "ui/ui_button.h"
 #include "graphics/tilemap.h"
+#include "pathfinding/path_finder.h"
 
 //int n = 0;
 
@@ -13,6 +14,7 @@ int main()
 {
 
     BuildingManager building_manager;
+    PathFinder path_finder;
 
     // create the window
     sf::RenderWindow window(sf::VideoMode(1024, 768), "My window");
@@ -65,6 +67,8 @@ int main()
             }
         };
 
+    Woodsman woodsman(0, 0, 200);
+
     // Option C : use a lambda which alternates between two callbacks. No real use case, just for fun
     //startButton.callback_ = [&n] () {
     //    n++;
@@ -78,6 +82,9 @@ int main()
     while (window.isOpen())
     {
 
+        // -- -- -- -- -- ---
+        woodsman.Tick();
+
         // - - - - - - - - - -
         building_manager.GetActive() ? ChangeCursor::BuildingCursor(window) : ChangeCursor::BasicCursor(window);
 
@@ -88,6 +95,18 @@ int main()
             // "close requested" event: we close the window
             if (event.type == sf::Event::Closed)
                 window.close();
+
+            if(event.type == sf::Event::MouseButtonReleased && event.mouseButton.button == sf::Mouse::Right)
+            {
+                sf::Vector2f destination(event.mouseButton.x, event.mouseButton.y);
+                Path p = path_finder.CalculatePath(map.GetWalkables(), woodsman.getPosition(), destination, 64);
+                woodsman.set_path(p);
+
+                // Set Destination -----------------------------------------------------------------------------
+            	//woodsman.set_destination(event.mouseButton.x, event.mouseButton.y);
+
+            }
+               
 
             // Handle UI Events
             btn_generate.HandleEvent(event);
@@ -101,11 +120,12 @@ int main()
 
         // draw everything here...
         window.draw(map);
-        window.draw(building_manager);
+    	window.draw(woodsman);
+    	window.draw(building_manager);
+
         window.draw(btn_generate);
     	window.draw(bt_add_house);
     	window.draw(bt_add_mill);
-    	//window.draw(woodsman);
         
         // end the current frame
         window.display();

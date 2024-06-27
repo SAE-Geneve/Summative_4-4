@@ -2,8 +2,6 @@
 #define API_GAMEPLAY_WOODS_MAN_H
 
 #include "Walker.h"
-#include "graphics/sprite_entity.h"
-
 
 class Woodsman : public Walker
 {

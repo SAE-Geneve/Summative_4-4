@@ -23,7 +23,7 @@ void BuildingManager::draw(sf::RenderTarget& target, sf::RenderStates states) co
 	}
 }
 
-void BuildingManager::AddHouse(const Tile& tile)
+void BuildingManager::AddHouse(Tile& tile)
 {
 	if (!is_active_)
 	{
@@ -35,12 +35,14 @@ void BuildingManager::AddHouse(const Tile& tile)
 	if (tile.Type() == Tile::TileType::kGround)
 	{
 		House newHouse(tile.Position().x, tile.Position().y);
+		tile.set_walkable(false);
+
 		buildings_.emplace_back(newHouse);
 	}
 
 }
 
-void BuildingManager::AddMill(const Tile& tile)
+void BuildingManager::AddMill(Tile& tile)
 {
 
 	if (is_active_)
@@ -50,6 +52,8 @@ void BuildingManager::AddMill(const Tile& tile)
 		if (tile.Type() == Tile::TileType::kGround)
 		{
 			Mill newMill(tile.Position().x, tile.Position().y);
+			tile.set_walkable(false);
+
 			buildings_.emplace_back(newMill);
 		}
 	}

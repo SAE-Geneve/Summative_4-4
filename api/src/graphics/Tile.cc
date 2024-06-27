@@ -15,26 +15,31 @@ Tile::Tile(TileType type, float x = 0, float y = 0, bool is_walkable = true)
 	outline_.setOutlineColor(sf::Color::White);
 	outline_.setOutlineThickness(-1);
 
-	isWalkable_ = is_walkable;
+	is_walkable_ = is_walkable;
 }
 
 void Tile::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	target.draw(sprite_, states);
 
-	if (isSelected_) {
+	if (is_selected_) {
 		//std::cout << "draw selected tile [" << outline_.getPosition().x << ":" << outline_.getPosition().y << "]" << std::endl;
 		target.draw(outline_, states);
 	}
 }
 
+void Tile::set_walkable(const bool is_walkable)
+{
+	is_walkable_ = is_walkable;
+}
+
 void Tile::Select()
 {
-	isSelected_ = true;
+	is_selected_ = true;
 }
 void Tile::Unselect()
 {
-	isSelected_ = false;
+	is_selected_ = false;
 }
 
 sf::Texture& Tile::GetFromType()

@@ -38,7 +38,7 @@ void Tilemap::Generate()
 			double rng = perlin.octave2D_01(x, y, 4);
 			//std::cout << "Perlin noise value : " << rng << std::endl;
 
-			if (rng >= 0.5f)
+			if (rng >= 0.4f)
 			{
 				tiles_.emplace_back(Tile::TileType::kGround, x * playground_tile_offset_u_.x, y * playground_tile_offset_u_.y, true);
 			}
@@ -52,6 +52,24 @@ void Tilemap::Generate()
 
 	tileSelected_ = &(*tiles_.begin());
 	tileSelected_->Unselect();
+
+}
+
+std::vector<sf::Vector2f> Tilemap::GetWalkables()
+{
+
+	std::vector<sf::Vector2f> walkables;
+
+	std::for_each(tiles_.begin(), tiles_.end(), [&walkables](const Tile& t) {
+
+		if (t.is_walkable())
+		{
+			walkables.emplace_back(t.Position());
+		}
+
+		});
+
+	return walkables;
 
 }
 
@@ -88,7 +106,7 @@ void Tilemap::HandleEvent(const sf::Event& event)
 		// Check if the left mouse button is pressed
 		if (event.mouseButton.button == sf::Mouse::Left) {
 			// Code à faire pour le bouton ---------------------------------------------------
-			if (ClickedTile && tileSelected_!=nullptr) {
+			if (ClickedTile && tileSelected_ != nullptr) {
 				ClickedTile(*tileSelected_);
 			}
 			else

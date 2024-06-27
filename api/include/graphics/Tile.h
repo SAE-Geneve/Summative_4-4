@@ -25,13 +25,16 @@ private:
 	sf::Sprite sprite_;
 	sf::RectangleShape outline_;
 
-	bool isWalkable_;
-	bool isSelected_ = false;
+	bool is_walkable_;
+	bool is_selected_ = false;
 
 	TileType type_;
 
 public:
-	bool Walkable() const { return isWalkable_; }
+
+	bool is_walkable() const { return is_walkable_; }
+	void set_walkable( bool is_walkable);
+
 	sf::Vector2f Position() const { return sprite_.getPosition(); }
 	TileType Type() const { return type_; }
 
