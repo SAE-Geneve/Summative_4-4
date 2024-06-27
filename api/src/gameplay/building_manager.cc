@@ -17,7 +17,7 @@ bool BuildingManager::GetActive() const
 
 void BuildingManager::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-	for(const auto& b : buildings_)
+	for (const auto& b : buildings_)
 	{
 		target.draw(b, states);
 	}
@@ -25,14 +25,14 @@ void BuildingManager::draw(sf::RenderTarget& target, sf::RenderStates states) co
 
 void BuildingManager::AddHouse(const Tile& tile)
 {
-	if(!is_active_)
+	if (!is_active_)
 	{
 		return;
 	}
 
 	std::cout << "Tile clicked, can we finally add a house ? [" << tile.Position().x << ":" << tile.Position().y << "]" << std::endl;
 
-	if(tile.Type() == Tile::TileType::kGround)
+	if (tile.Type() == Tile::TileType::kGround)
 	{
 		House newHouse(tile.Position().x, tile.Position().y);
 		buildings_.emplace_back(newHouse);
@@ -43,17 +43,18 @@ void BuildingManager::AddHouse(const Tile& tile)
 void BuildingManager::AddMill(const Tile& tile)
 {
 
-	if (!is_active_)
+	if (is_active_)
 	{
-		return;
+		std::cout << "Tile clicked, can we finally add a house ? [" << tile.Position().x << ":" << tile.Position().y << "]" << std::endl;
+
+		if (tile.Type() == Tile::TileType::kGround)
+		{
+			Mill newMill(tile.Position().x, tile.Position().y);
+			buildings_.emplace_back(newMill);
+		}
 	}
 
-	std::cout << "Tile clicked, can we finally add a house ? [" << tile.Position().x << ":" << tile.Position().y << "]" << std::endl;
+	is_active_ = false;
 
-	if (tile.Type() == Tile::TileType::kGround)
-	{
-		Mill newMill(tile.Position().x, tile.Position().y);
-		buildings_.emplace_back(newMill);
-	}
 }
 

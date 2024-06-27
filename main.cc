@@ -25,7 +25,6 @@ int main()
 
     UiButton btn_generate(sf::Vector2f(50,710), sf::Color::Yellow, "Generate");
     btn_generate.setScale(0.5f, 0.5f);
-    //map.ClickedTile = std::bind(&BuildingManager::AddHouse, &building_manager, std::placeholders::_1);
 
     // Fix 2 : attach a method or member function can not be directly assigned
     // use a lambda or std::bind
@@ -43,13 +42,11 @@ int main()
             if (building_manager.GetActive())
             {
                 building_manager.SetActive(false);
-                ChangeCursor::BasicCursor(window);
             }
             else
             {
                 building_manager.SetActive(true);
                 map.ClickedTile = std::bind(&BuildingManager::AddHouse, &building_manager, std::placeholders::_1);
-                ChangeCursor::BuildingCursor(window);
             }
         };
 
@@ -60,13 +57,11 @@ int main()
             if (building_manager.GetActive())
             {
                 building_manager.SetActive(false);
-                ChangeCursor::BasicCursor(window);
             }
             else
             {
                 building_manager.SetActive(true);
                 map.ClickedTile = std::bind(&BuildingManager::AddMill, &building_manager, std::placeholders::_1);
-                ChangeCursor::BuildingCursor(window);
             }
         };
 
@@ -82,6 +77,9 @@ int main()
     // run the program as long as the window is open
     while (window.isOpen())
     {
+
+        // - - - - - - - - - -
+        building_manager.GetActive() ? ChangeCursor::BuildingCursor(window) : ChangeCursor::BasicCursor(window);
 
     	// check all the window's events that were triggered since the last iteration of the loop
         sf::Event event;
