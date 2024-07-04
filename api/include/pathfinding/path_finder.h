@@ -9,7 +9,6 @@
 struct PathPoint
 {
 
-
 	sf::Vector2f position;
 
 	// Members
@@ -61,14 +60,19 @@ const std::array kNeighbours = {
 };
 
 
-class PathFinder
+//class PathFinder
+//{
+//private:
+//	std::vector<sf::Vector2f> ConstructPath(const PathPoint& exit_point);
+//
+//public:
+//	Path CalculatePath(std::vector<sf::Vector2f> positions, sf::Vector2f start, sf::Vector2f end, int tile_map_offset);
+//
+//};
+
+namespace Pathfinder
 {
-private:
-	std::vector<sf::Vector2f> ConstructPath(const PathPoint& exit_point);
-
-public:
-	Path CalculatePath(std::vector<sf::Vector2f> positions, sf::Vector2f start, sf::Vector2f end, int tile_map_offset);
-
+	Path CalculatePath(std::vector<sf::Vector2f> positions, sf::Vector2f start, sf::Vector2f end, int tile_size);
 };
 
 #endif // API_PATH_FINDING_PATH_FINDER_H

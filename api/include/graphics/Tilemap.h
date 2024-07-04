@@ -22,6 +22,7 @@ public:
 
 	void Generate();
 	std::vector<sf::Vector2f> GetWalkables();
+	sf::Vector2f GetClosestTree();
 
 	std::function<void(Tile&)> ClickedTile;
 

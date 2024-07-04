@@ -73,6 +73,17 @@ std::vector<sf::Vector2f> Tilemap::GetWalkables()
 
 }
 
+sf::Vector2f Tilemap::GetClosestTree()
+{
+
+	sf::Vector2f closestTree;
+
+	// TODO : fill what the closest tree is
+
+	return closestTree;
+
+}
+
 
 void Tilemap::HandleEvent(const sf::Event& event)
 {

@@ -14,8 +14,7 @@ int main()
 {
 
     BuildingManager building_manager;
-    PathFinder path_finder;
-
+    
     // create the window
     sf::RenderWindow window(sf::VideoMode(1024, 768), "My window");
     ChangeCursor::BasicCursor(window);
@@ -67,7 +66,9 @@ int main()
             }
         };
 
-    Woodsman woodsman(window.getSize().x / 2 , window.getSize().y / 2, 200);
+    Woodsman woodsman(window.getSize().x / 2 , window.getSize().y / 2, 200, map);
+    woodsman.InitiateBehaviours();
+
 
     // Option C : use a lambda which alternates between two callbacks. No real use case, just for fun
     //startButton.callback_ = [&n] () {
@@ -99,12 +100,9 @@ int main()
             if(event.type == sf::Event::MouseButtonReleased && event.mouseButton.button == sf::Mouse::Right)
             {
                 sf::Vector2f destination(event.mouseButton.x, event.mouseButton.y);
-                Path p = path_finder.CalculatePath(map.GetWalkables(), woodsman.LastDestination(), destination, 64);
+                Path p = Pathfinder::CalculatePath(map.GetWalkables(), woodsman.LastDestination(), destination, 64);
 
-                //if(woodsman.HasEndedCurrentPath())
-                //{
-	                woodsman.set_path(p);
-                //}
+            	woodsman.set_path(p);
 
                 // Set Destination -----------------------------------------------------------------------------
             	//woodsman.set_destination(event.mouseButton.x, event.mouseButton.y);
