@@ -9,7 +9,7 @@ class Woodsman : public Walker
 public:
 	Woodsman(float x, float y, float linear_speed);
 	void DefineTexture() override;
-
+	
 };
 
 #endif // WOODS_MAN_H

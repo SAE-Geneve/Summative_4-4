@@ -67,7 +67,7 @@ int main()
             }
         };
 
-    Woodsman woodsman(0, 0, 200);
+    Woodsman woodsman(window.getSize().x / 2 , window.getSize().y / 2, 200);
 
     // Option C : use a lambda which alternates between two callbacks. No real use case, just for fun
     //startButton.callback_ = [&n] () {
@@ -99,8 +99,12 @@ int main()
             if(event.type == sf::Event::MouseButtonReleased && event.mouseButton.button == sf::Mouse::Right)
             {
                 sf::Vector2f destination(event.mouseButton.x, event.mouseButton.y);
-                Path p = path_finder.CalculatePath(map.GetWalkables(), woodsman.getPosition(), destination, 64);
-                woodsman.set_path(p);
+                Path p = path_finder.CalculatePath(map.GetWalkables(), woodsman.LastDestination(), destination, 64);
+
+                //if(woodsman.HasEndedCurrentPath())
+                //{
+	                woodsman.set_path(p);
+                //}
 
                 // Set Destination -----------------------------------------------------------------------------
             	//woodsman.set_destination(event.mouseButton.x, event.mouseButton.y);

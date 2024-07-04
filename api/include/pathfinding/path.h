@@ -7,9 +7,9 @@ class Path
 {
 
 public:
-	bool IsEnded();
-	bool IsAvailable();
-	bool IsReady();
+	bool IsEnded() const;
+	bool IsAvailable() const;
+	bool IsReady() const;
 
 	sf::Vector2f GetNextStep();
 	void SetSteps(std::vector<sf::Vector2f> steps);

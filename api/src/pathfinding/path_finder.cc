@@ -26,12 +26,20 @@ Path PathFinder::CalculatePath(std::vector<sf::Vector2f> positions, sf::Vector2f
 {
 
 	Path path;
+
 	sf::Vector2f rounded_end;
 	rounded_end.x = end.x - fmod(end.x, (float)tile_map_offset);
 	rounded_end.y = end.y - fmod(end.y, (float)tile_map_offset);
 
+	// --------------------------
+	// Controle de la pertinence de la destination (distance, preésence dans la liste des positions eventuelles)
+
+	sf::Vector2f rounded_start;
+	rounded_start.x = start.x - fmod(start.x, (float)tile_map_offset);
+	rounded_start.y = start.y - fmod(start.y, (float)tile_map_offset);
+
 	// -- Prepare the list with --
-	positions.emplace_back(start);
+	positions.emplace_back(rounded_start);
 	positions.emplace_back(rounded_end);
 
 	// --
@@ -40,8 +48,8 @@ Path PathFinder::CalculatePath(std::vector<sf::Vector2f> positions, sf::Vector2f
 	std::vector<sf::Vector2f> open_list;
 	std::vector<sf::Vector2f> closed_list;
 
-	open_queue.emplace(0, Magnitude(rounded_end - start), start);
-	open_list.emplace_back(start);
+	open_queue.emplace(0, Magnitude(rounded_end - rounded_start), rounded_start);
+	open_list.emplace_back(rounded_start);
 
 	while (!open_queue.empty())
 	{
@@ -55,6 +63,8 @@ Path PathFinder::CalculatePath(std::vector<sf::Vector2f> positions, sf::Vector2f
 		// Did we find the exit of the maze ?
 		if (Magnitude(rounded_end - current.position) <= std::numeric_limits<float>::epsilon())
 		{
+			// :) :) :) :) :) :) :) :) :) :) :) :) :) :)
+			// YES WE FOUND IT
 			path.SetSteps(ConstructPath(current));
 			std::cout << "Found the path : nb steps = " << path.GetSteps().size() << std::endl;
 			return path;
@@ -71,7 +81,7 @@ Path PathFinder::CalculatePath(std::vector<sf::Vector2f> positions, sf::Vector2f
 					return pos == neighbourPos;
 				});
 
-			// Didn't found a valid neighbour
+			// Found a valid neighbour
 			// Possible cases : outside of the map, empty lists, etc.
 			if (found_position != positions.end())
 			{
@@ -108,6 +118,7 @@ Path PathFinder::CalculatePath(std::vector<sf::Vector2f> positions, sf::Vector2f
 	// -
 	std::cout << "Didn't find the path" << std::endl;
 	std::cout << "Start : " << start.x << " " << start.y << std::endl;
+	std::cout << "Rounded start : " << rounded_start.x << " " << rounded_start.y << std::endl;
 	std::cout << "End : " << end.x << " " << end.y << std::endl;
 	std::cout << "Rounded end : " << rounded_end.x << " " << rounded_end.y << std::endl;
 

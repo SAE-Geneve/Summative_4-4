@@ -28,6 +28,8 @@ public:
 	void set_path(const Path path);
 
 	void Tick();
+	sf::Vector2f LastDestination() const;
+
 };
 
 #endif
