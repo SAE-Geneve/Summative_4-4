@@ -55,7 +55,7 @@ void Walker::Tick()
 
 		if (Magnitude(destination_ - actual_position) < 0.01f * 64)
 		{
-			std::cout << "Destination reached" << std::endl;
+			std::cout << "Step reached" << std::endl;
 			new_position = destination_;
 			destination_ = path_.GetNextStep();
 
