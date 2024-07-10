@@ -6,23 +6,28 @@
 class Path
 {
 
-public:
-	bool IsEnded() const;
-	bool IsAvailable() const;
-	bool IsReady() const;
-
-	sf::Vector2f GetNextStep();
-	void SetSteps(std::vector<sf::Vector2f> steps);
-	// steps getter
-	const std::queue<sf::Vector2f>& GetSteps();
-
 private:
 	std::queue<sf::Vector2f> steps_;
 	sf::Vector2f next_step_;
 
+	sf::Vector2f destination_;
+
 	bool is_available_ = false;
 	// TODO : async calculation (job system)
 	bool is_ready_ = true;
+
+public:
+	bool IsEnded() const;
+	bool IsAvailable() const;
+	bool IsReady() const;
+	sf::Vector2f Destination() const;
+
+	sf::Vector2f GetNextStep();
+	void SetSteps(std::vector<sf::Vector2f> steps);
+
+	// steps getter
+	const std::queue<sf::Vector2f>& GetSteps();
+
 
 };
 #endif

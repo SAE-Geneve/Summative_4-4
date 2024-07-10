@@ -15,6 +15,11 @@ bool Path::IsReady() const
 	return is_ready_;
 }
 
+sf::Vector2f Path::Destination() const
+{
+	return destination_;
+}
+
 sf::Vector2f Path::GetNextStep()
 {
 	if(!steps_.empty())

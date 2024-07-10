@@ -3,6 +3,7 @@
 
 #include <iostream>
 
+#include "sfml_vec2f.h"
 #include "bt_tree/bt_leaf.h"
 
 Woodsman::Woodsman(float x, float y, float linear_speed, Tilemap& tilemap) : tilemap_(tilemap), Walker(x, y, linear_speed)
@@ -43,11 +44,14 @@ void Woodsman::Tick()
 behaviour_tree::Status Woodsman::SeekWood()
 {
 	// TODO : closest tree ????
-	sf::Vector2f destination = tilemap_.GetClosestTree();
+	sf::Vector2f closestTree = tilemap_.GetClosestTree();
 
-	Path p = Pathfinder::CalculatePath(tilemap_.GetWalkables(), LastDestination(), destination, 64);
-	set_path(p);
-
+	Path p = Pathfinder::CalculatePath(tilemap_.GetWalkables(), LastDestination(), closestTree, 64);
+	if(p.IsAvailable())
+	{
+		set_path(p);
+	}
+	
 	std::cout << "Execute seek wood" << std::endl;
 	return behaviour_tree::Status::kSuccess;
 }

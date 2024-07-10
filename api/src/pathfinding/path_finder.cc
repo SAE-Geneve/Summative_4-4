@@ -17,7 +17,7 @@ namespace Pathfinder
 
 		while (point.parent != nullptr)
 		{
-			point = *point.parent;
+			point = std::move(*point.parent);
 			positions.insert(positions.begin(), point.position);
 		}
 
@@ -34,7 +34,7 @@ namespace Pathfinder
 		rounded_end.y = end.y - fmod(end.y, (float)tile_map_offset);
 
 		// --------------------------
-		// Controle de la pertinence de la destination (distance, preésence dans la liste des positions eventuelles)
+		// Controle de la pertinence de la destination (distance, présence dans la liste des positions eventuelles)
 
 		sf::Vector2f rounded_start;
 		rounded_start.x = start.x - fmod(start.x, (float)tile_map_offset);
@@ -47,6 +47,7 @@ namespace Pathfinder
 		// --
 		std::priority_queue<PathPoint, std::vector<PathPoint>, std::greater<PathPoint>> open_queue;
 
+		// TODO to unordered set
 		std::vector<sf::Vector2f> open_list;
 		std::vector<sf::Vector2f> closed_list;
 

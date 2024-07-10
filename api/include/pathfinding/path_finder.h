@@ -2,6 +2,7 @@
 #define API_PATH_FINDING_PATH_FINDER_H
 
 #include <array>
+#include <memory>
 
 #include "path.h"
 
@@ -16,19 +17,39 @@ struct PathPoint
 	float g;
 	float h;
 
-	PathPoint* parent;
+	std::unique_ptr<PathPoint> parent;
 
 	// Ctor
-	PathPoint() = default;
+	PathPoint();
+
+	PathPoint(const PathPoint& p)
+	{
+
+		g = p.g;
+		h = p.h;
+		f = g + h;
+
+		position = p.position;
+
+		if(p.parent != nullptr)
+			parent = std::make_unique<PathPoint>(*p.parent);
+
+	}
+
 	PathPoint(float g, float h, sf::Vector2f position, const PathPoint& parent) : g(g), h(h), position(position)
 	{
-		this->parent = new PathPoint(parent);
+		this->parent = std::make_unique<PathPoint>(parent);
 		f = g + h;
 	}
 	PathPoint(float g, float h, sf::Vector2f position) : g(g), h(h), position(position)
 	{
 		this->parent = nullptr;
 		f = g + h;
+	}
+
+	PathPoint& operator=(const PathPoint& t)
+	{
+		return *this;
 	}
 
 	// Methods
@@ -41,7 +62,7 @@ struct PathPoint
 	//bool operator>(const PathPoint& other) const {
 	//	return this->f() > other.f();
 	//}
-	
+
 	// Operators
 	bool operator<(const PathPoint& other) const {
 		return this->f < other.f;

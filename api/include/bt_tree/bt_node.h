@@ -14,16 +14,22 @@ namespace behaviour_tree
 
 	class BtNode
 	{
-	private:
-		std::vector<BtNode> childrens_;
+	
+	public:
+		virtual ~BtNode() = default;
+		virtual Status Process() = 0;
 
+		virtual void AddNode(const BtNode& node) = 0;
+
+	};
+
+	class BtNodeList : public BtNode
+	{
 	protected:
+		std::vector<BtNode> children_;
 
 	public:
-		~BtNode() = default;
-		virtual Status Process();
-
-		void AddNode(const BtNode& node);
+		void AddNode(const BtNode& node) override;
 
 	};
 
