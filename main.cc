@@ -67,7 +67,10 @@ int main()
         };
 
     Woodsman woodsman(window.getSize().x / 2 , window.getSize().y / 2, 100, map);
-    woodsman.InitiateBehaviours();
+    //woodsman.InitiateBehaviours();
+
+    Woodsman woodsman2(window.getSize().x / 2 , window.getSize().y / 2, 100, map);
+    woodsman2.InitiateBehaviours();
 
 
     // Option C : use a lambda which alternates between two callbacks. No real use case, just for fun
@@ -85,6 +88,7 @@ int main()
 
         // -- -- -- -- -- ---
         woodsman.Tick();
+        woodsman2.Tick();
 
         // - - - - - - - - - -
         building_manager.GetActive() ? ChangeCursor::BuildingCursor(window) : ChangeCursor::BasicCursor(window);
@@ -97,17 +101,17 @@ int main()
             if (event.type == sf::Event::Closed)
                 window.close();
 
-            if(event.type == sf::Event::MouseButtonReleased && event.mouseButton.button == sf::Mouse::Right)
-            {
-                sf::Vector2f destination(event.mouseButton.x, event.mouseButton.y);
-                Path p = Pathfinder::CalculatePath(map.GetWalkables(), woodsman.LastDestination(), destination, 64);
+            //if(event.type == sf::Event::MouseButtonReleased && event.mouseButton.button == sf::Mouse::Right)
+            //{
+            //    sf::Vector2f destination(event.mouseButton.x, event.mouseButton.y);
+            //    Path p = Pathfinder::CalculatePath(map.GetWalkables(), woodsman.LastDestination(), destination, 64);
 
-            	woodsman.set_path(p);
+            //	woodsman.set_path(p);
 
-                // Set Destination -----------------------------------------------------------------------------
-            	//woodsman.set_destination(event.mouseButton.x, event.mouseButton.y);
+            //    // Set Destination -----------------------------------------------------------------------------
+            //	//woodsman.set_destination(event.mouseButton.x, event.mouseButton.y);
 
-            }
+            //}
                
 
             // Handle UI Events
@@ -123,6 +127,7 @@ int main()
         // draw everything here...
         window.draw(map);
     	window.draw(woodsman);
+    	window.draw(woodsman2);
     	window.draw(building_manager);
 
         window.draw(btn_generate);

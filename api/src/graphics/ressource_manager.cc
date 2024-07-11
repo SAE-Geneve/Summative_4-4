@@ -17,6 +17,7 @@ void ResourceManager::LoadTextures()
 	textures_.at(static_cast<int>(Texture::kBuildingMill_02)).loadFromFile("../resources/sprites/Structure/medievalStructure_Mill_02.png");
 	textures_.at(static_cast<int>(Texture::kBuildingMill_03)).loadFromFile("../resources/sprites/Structure/medievalStructure_Mill_03.png");
 	textures_.at(static_cast<int>(Texture::kWoodsMan)).loadFromFile("../resources/sprites/Unit/medievalUnit_12.png");
+	textures_.at(static_cast<int>(Texture::kTerrainForestCut)).loadFromFile("../resources/sprites/Tile/medievalTile_51.png");
 
 }
 

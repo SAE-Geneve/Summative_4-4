@@ -53,12 +53,21 @@ sf::Texture& Tile::GetFromType()
 			return ResourceManager::Get().GetTexture(ResourceManager::Texture::kTerrainForest);
 		break;
 
+	case TileType::kCutTree:
+		return ResourceManager::Get().GetTexture(ResourceManager::Texture::kTerrainForestCut);
+
 	case TileType::kGround:
 		return ResourceManager::Get().GetTexture(ResourceManager::Texture::kTerrainGround);
 		break;
-
+	default: ;
 	}
 
 
 
+}
+
+void Tile::SetType(TileType new_type)
+{
+	type_ = new_type;
+	sprite_.setTexture(GetFromType());
 }

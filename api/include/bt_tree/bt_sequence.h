@@ -27,6 +27,8 @@ inline Status BtSequence::Process()
 		{
 			std::cout << "Next sequence !" << std::endl;
 
+			children_[current_child_]->Reset();
+
 			current_child_++;
 			if (current_child_ >= children_.size())
 			{

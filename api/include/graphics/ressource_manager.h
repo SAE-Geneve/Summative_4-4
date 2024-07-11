@@ -19,6 +19,7 @@ public:
 		kBuildingMill_02,
 		kBuildingMill_03,
 		kWoodsMan,
+		kTerrainForestCut,
 
 		// Last value of enum used to get the number of resources
 		kMax

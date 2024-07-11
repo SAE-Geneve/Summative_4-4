@@ -33,7 +33,7 @@ void Woodsman::InitiateBehaviours()
 	BtLeaf* check_stamina = new BtLeaf("check stamina", [this]()
 		{
 
-			std::cout << "Stamina : " << stamina_ << std::endl;
+			std::cout << "Check Stamina : " << stamina_ << std::endl;
 
 			if (stamina_ >= 0)
 				return Status::kSuccess;
@@ -64,7 +64,7 @@ void Woodsman::InitiateBehaviours()
 	BtLeaf* refill_stamina = new BtLeaf("check stamina", [this]()
 		{
 			stamina_ = 30;
-			std::cout << "Stamina : " << stamina_ << std::endl;
+			std::cout << "Refill Stamina : " << stamina_ << std::endl;
 			return Status::kFailure;
 		}
 	);
@@ -170,7 +170,7 @@ Status Woodsman::BackHome()
 	}
 	else
 	{
-		//std::cout << "Not arrived yet at home" << std::endl;
+		std::cout << "Not arrived yet at home" << std::endl;
 		return Status::kRunning;
 	}
 

@@ -109,6 +109,15 @@ bool Tilemap::GatherTree(sf::Vector2f pos)
 	if(tree != trees_.end())
 	{
 		trees_.erase(tree);
+
+		// change tile type -----------
+		auto tile = std::find_if(tiles_.begin(), tiles_.end(), [pos](const Tile& t) { return pos == t.Position(); });
+
+		if(tile != tiles_.end())
+		{
+			tile->SetType(Tile::TileType::kCutTree);
+		}
+
 		return true;
 	}else
 	{
@@ -165,44 +174,11 @@ void Tilemap::HandleEvent(const sf::Event& event)
 
 void Tilemap::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-
 	// Draw all tiles
 	for (const auto& tile : tiles_)
 	{
 		target.draw(tile, states);
 	}
-
-	/*
-	 *Draw all walkable tiles
-
-	auto tile = tiles_.begin();
-	while (tile != tiles_.end())
-	{
-		tile = std::find_if(tile, tiles_.end(), [](const Tile& t) {return t.Walkable(); });
-		if(tile != tiles_.end())
-		{
-			target.draw(*tile, states);
-			++tile;
-		}
-
-	}
-	*/
-
-	/*
-	 *Draw only the tiles that are in the view
-
-	auto tile = tiles_.begin();
-	while (tile != tiles_.end())
-	{
-		tile = std::find_if(tile, tiles_.end(), [](const Tile& t) {return t.Position().x > 20 && t.Position().x < 150; });
-		if (tile >= tiles_.end())
-			break;
-
-		//
-		target.draw(*tile, states);
-		++tile;
-	}
-	*/
 }
 
 

@@ -20,6 +20,7 @@ namespace behaviour_tree
 	public:
 		virtual ~BtNode() = default;
 		virtual Status Process() = 0;
+		virtual void Reset() = 0;
 
 	};
 
@@ -39,6 +40,7 @@ namespace behaviour_tree
 			}
 		}
 		void AddNode(BtNode* node);
+		void Reset() override;
 
 	};
 
@@ -51,5 +53,9 @@ namespace behaviour_tree
 		children_.push_back(node);
 	}
 
+	inline void BtNodeList::Reset()
+	{
+		current_child_ = 0;
+	}
 }
 #endif // BT_NODE_H

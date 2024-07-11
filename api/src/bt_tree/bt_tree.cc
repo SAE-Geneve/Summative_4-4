@@ -10,21 +10,22 @@ BtTree::~BtTree()
 
 void BtTree::Tick()
 {
-	Status status;
+	if (root_ != nullptr)
+	{
+		Status status = root_->Process();
 
-	if(root_ != nullptr)
-		status = root_->Process();
+		//switch (status) {
+		//case Status::kRunning:
+		//	break;
+		//case Status::kFailure:
+		//	break;
+		//case Status::kSuccess:
+		//	break;
+		//default:
+		//	std::cout << "Whaaaaaat ?????" << std::endl;
+		//	break;
+		//}
 
-	switch (status) {
-	case Status::kRunning:
-		break;
-	case Status::kFailure:
-		break;
-	case Status::kSuccess:
-		break;
-	default:
-		std::cout << "Whaaaaaat ?????" << std::endl;
-		break;
 	}
 
 }

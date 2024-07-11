@@ -13,7 +13,8 @@ public:
 	enum class TileType
 	{
 		kGround,
-		kForest
+		kForest,
+		kCutTree
 	};
 
 	Tile(TileType type_, float x, float y, bool is_walkable);
@@ -41,6 +42,9 @@ public:
 	void Select();
 	void Unselect();
 	sf::Texture& GetFromType();
+
+	void SetType(TileType new_type);
+
 };
 
 #endif // TILE_H

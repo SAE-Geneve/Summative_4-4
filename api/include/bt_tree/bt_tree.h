@@ -9,7 +9,7 @@ namespace behaviour_tree
 {
 	class BtTree
 	{
-		BtNode* root_;
+		BtNode* root_ = nullptr;
 
 	public:
 
