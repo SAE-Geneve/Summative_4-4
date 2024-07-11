@@ -5,6 +5,7 @@
 
 #include "sfml_vec2f.h"
 #include "bt_tree/bt_leaf.h"
+#include "bt_tree/bt_selector.h"
 #include "bt_tree/bt_sequence.h"
 
 Woodsman::Woodsman(float x, float y, float linear_speed, Tilemap& tilemap) : tilemap_(tilemap), Walker(x, y, linear_speed)
@@ -24,12 +25,23 @@ void Woodsman::DefineTexture()
 
 void Woodsman::InitiateBehaviours()
 {
+	stamina_ = 30;
 
-	//BtLeaf* l;
-	//BtNode* n;
+	Path p = Pathfinder::CalculatePath(tilemap_.GetWalkables(), LastDestination(), getPosition(), 64);
+	set_path(p);
 
-	//n = l;
-	//l = n;
+	BtLeaf* check_stamina = new BtLeaf("check stamina", [this]()
+		{
+
+			std::cout << "Stamina : " << stamina_ << std::endl;
+
+			if (stamina_ >= 0)
+				return Status::kSuccess;
+			else
+				return Status::kFailure;
+
+		}
+	);
 
 	BtLeaf* seek_wood = new BtLeaf("seek", [this]()
 		{
@@ -49,14 +61,30 @@ void Woodsman::InitiateBehaviours()
 		}
 	);
 
+	BtLeaf* refill_stamina = new BtLeaf("check stamina", [this]()
+		{
+			stamina_ = 30;
+			std::cout << "Stamina : " << stamina_ << std::endl;
+			return Status::kFailure;
+		}
+	);
 
-	BtSequence* main_sequence = new BtSequence();
+	BtSelector* main_select = new BtSelector();
 
-	main_sequence->AddNode(seek_wood);
-	main_sequence->AddNode(gather_wood);
-	main_sequence->AddNode(back_home);
+	BtSequence* gather_sequence = new BtSequence();
+	BtSequence* home_sequence = new BtSequence();
 
-	bt_tree_.AttachNode(main_sequence);
+	main_select->AddNode(gather_sequence);
+	main_select->AddNode(home_sequence);
+
+	gather_sequence->AddNode(check_stamina);
+	gather_sequence->AddNode(seek_wood);
+	gather_sequence->AddNode(gather_wood);
+
+	home_sequence->AddNode(back_home);
+	home_sequence->AddNode(refill_stamina);
+
+	bt_tree_.AttachNode(main_select);
 
 }
 
@@ -71,13 +99,16 @@ void Woodsman::Tick()
 Status Woodsman::SeekWood()
 {
 	sf::Vector2f closestTree = tilemap_.GetClosestTree(getPosition());
-	//sf::Vector2f pathDestination = path_.FinalDestination();
 
 	if (squaredMagnitude(closestTree - path_.FinalDestination()) > std::numeric_limits<float>::epsilon())
 	{
 		std::cout << "Recalculate path" << std::endl;
 		Path p = Pathfinder::CalculatePath(tilemap_.GetWalkables(), LastDestination(), closestTree, 64);
 		set_path(p);
+
+		// - - - - - - - - - - - - - - -
+		stamina_ -= p.GetSteps().size();
+
 	}
 
 	if (!path_.IsAvailable())
@@ -89,31 +120,29 @@ Status Woodsman::SeekWood()
 	float sq_mag = squaredMagnitude(getPosition() - path_.FinalDestination());
 	if (sq_mag < std::numeric_limits<float>::epsilon())
 	{
-		std::cout << "sq mag = " << sq_mag << std::endl;
 		std::cout << "Arrived !!!!!!" << std::endl;
 		return Status::kSuccess;
 	}
 	else
 	{
-		std::cout << "sq mag = " << sq_mag << std::endl;
-		std::cout << "Not arrived yet" << std::endl;
+		//std::cout << "Not arrived yet" << std::endl;
 		return Status::kRunning;
 	}
 
 }
 
 
-behaviour_tree::Status Woodsman::GatherWood()
+Status Woodsman::GatherWood()
 {
 
 	if (tilemap_.GatherTree(getPosition()))
 	{
 		std::cout << "Cutting trees" << std::endl;
-		return behaviour_tree::Status::kSuccess;
+		return Status::kSuccess;
 	}
 
 	//std::cout << "not Cutting trees" << std::endl;
-	return behaviour_tree::Status::kFailure;
+	return Status::kFailure;
 
 }
 
@@ -121,7 +150,6 @@ Status Woodsman::BackHome()
 {
 
 	sf::Vector2f homePosition = sf::Vector2f(0, 0);
-	//sf::Vector2f pathDestination = path_.FinalDestination();
 
 	if (squaredMagnitude(homePosition - path_.FinalDestination()) > std::numeric_limits<float>::epsilon())
 	{
@@ -142,7 +170,7 @@ Status Woodsman::BackHome()
 	}
 	else
 	{
-		std::cout << "Not arrived yet at home" << std::endl;
+		//std::cout << "Not arrived yet at home" << std::endl;
 		return Status::kRunning;
 	}
 

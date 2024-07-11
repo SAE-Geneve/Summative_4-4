@@ -13,7 +13,6 @@ public:
 	~BtSequence() override = default;
 
 	Status Process() override;
-	void ResetSequence();
 
 };
 
@@ -47,11 +46,6 @@ inline Status BtSequence::Process()
 
 	return Status::kFailure;
 
-}
-
-inline void BtSequence::ResetSequence()
-{
-	current_child_ = 0;
 }
 
 #endif

@@ -13,6 +13,8 @@ private:
 
 	behaviour_tree::BtTree bt_tree_;
 
+	int stamina_ = 0;
+
 public:
 	Woodsman(float x, float y, float linear_speed, Tilemap& tilemap);
 
