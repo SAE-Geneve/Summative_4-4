@@ -5,18 +5,23 @@
 
 #include "bt_node.h"
 
+#include "bt_tree/bt_leaf.h"
+#include "bt_tree/bt_selector.h"
+#include "bt_tree/bt_sequence.h"
+
 namespace behaviour_tree
 {
 	class BtTree
 	{
-		BtNode* root_ = nullptr;
+		std::unique_ptr<BtNode> root_;
 
 	public:
 
-		~BtTree();
-
 		void Tick();
-		void AttachNode(BtNode* node);
+
+		void Attach(std::unique_ptr<BtLeaf>& node);
+		void Attach(std::unique_ptr<BtSequence>& node);
+		void Attach(std::unique_ptr<BtSelector>& node);
 
 	};
 

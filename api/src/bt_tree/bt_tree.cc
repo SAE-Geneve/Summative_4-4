@@ -1,36 +1,30 @@
 #include "bt_tree/bt_tree.h"
 
 #include <iostream>
-using namespace behaviour_tree;
 
-BtTree::~BtTree()
-{
-	delete root_;
-}
+
+using namespace behaviour_tree;
 
 void BtTree::Tick()
 {
 	if (root_ != nullptr)
 	{
 		Status status = root_->Process();
-
-		//switch (status) {
-		//case Status::kRunning:
-		//	break;
-		//case Status::kFailure:
-		//	break;
-		//case Status::kSuccess:
-		//	break;
-		//default:
-		//	std::cout << "Whaaaaaat ?????" << std::endl;
-		//	break;
-		//}
-
 	}
 
 }
 
-void BtTree::AttachNode(BtNode* node)
+void BtTree::Attach(std::unique_ptr<BtLeaf>& node)
 {
-	root_ = node;
+	root_ = std::move(node);
+}
+
+void BtTree::Attach(std::unique_ptr<BtSequence>& node)
+{
+	root_ = std::move(node);
+}
+
+void BtTree::Attach(std::unique_ptr<BtSelector>& node)
+{
+	root_ = std::move(node);
 }

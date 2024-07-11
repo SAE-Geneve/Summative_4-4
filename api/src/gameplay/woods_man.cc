@@ -2,20 +2,35 @@
 #include "gameplay/woods_man.h"
 
 #include <iostream>
+#include <random>
 
 #include "sfml_vec2f.h"
 #include "bt_tree/bt_leaf.h"
-#include "bt_tree/bt_selector.h"
-#include "bt_tree/bt_sequence.h"
+#include "pathfinding/path_finder.h"
 
-Woodsman::Woodsman(float x, float y, float linear_speed, Tilemap& tilemap) : tilemap_(tilemap), Walker(x, y, linear_speed)
+using namespace behaviour_tree;
+
+Woodsman::Woodsman(float x, float y, float linear_speed, Tilemap& tilemap) : Walker(x, y, linear_speed), tilemap_(tilemap)
 {
 	DefineTexture();
 
 	rect_.setPosition(shape_.getGlobalBounds().getPosition());
 	rect_.setSize(shape_.getGlobalBounds().getSize());
 
-	//tilemap_ = tilemap;
+	InitiateBehaviours();
+
+}
+
+Woodsman::~Woodsman()
+{
+	std::cout << "What happens Woodsman ?" << std::endl;
+}
+
+
+Woodsman::Woodsman(const Woodsman& w) : Walker(w), tilemap_(w.tilemap_)
+{
+	stamina_ = w.stamina_;
+	//InitiateBehaviours();
 }
 
 void Woodsman::DefineTexture()
@@ -63,28 +78,28 @@ void Woodsman::InitiateBehaviours()
 
 	BtLeaf* refill_stamina = new BtLeaf("check stamina", [this]()
 		{
-			stamina_ = 30;
+			stamina_ = PickNewStamina();
 			std::cout << "Refill Stamina : " << stamina_ << std::endl;
 			return Status::kFailure;
 		}
 	);
 
-	BtSelector* main_select = new BtSelector();
+	std::unique_ptr<BtSelector> main_select = std::make_unique<BtSelector>();
 
 	BtSequence* gather_sequence = new BtSequence();
 	BtSequence* home_sequence = new BtSequence();
 
-	main_select->AddNode(gather_sequence);
-	main_select->AddNode(home_sequence);
+	main_select->Add(gather_sequence);
+	main_select->Add(home_sequence);
 
-	gather_sequence->AddNode(check_stamina);
-	gather_sequence->AddNode(seek_wood);
-	gather_sequence->AddNode(gather_wood);
+	gather_sequence->Add(check_stamina);
+	gather_sequence->Add(seek_wood);
+	gather_sequence->Add(gather_wood);
 
-	home_sequence->AddNode(back_home);
-	home_sequence->AddNode(refill_stamina);
+	home_sequence->Add(back_home);
+	home_sequence->Add(refill_stamina);
 
-	bt_tree_.AttachNode(main_select);
+	bt_tree_.Attach(main_select);
 
 }
 
@@ -173,5 +188,16 @@ Status Woodsman::BackHome()
 		std::cout << "Not arrived yet at home" << std::endl;
 		return Status::kRunning;
 	}
+
+}
+
+int Woodsman::PickNewStamina()
+{
+
+	std::random_device dev;
+	std::mt19937 rng(dev());
+	std::uniform_int_distribution<std::mt19937::result_type> int_distribution(20, 30); // distribution in range [1, 6]
+
+	return int_distribution(rng);
 
 }

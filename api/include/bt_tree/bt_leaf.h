@@ -13,15 +13,23 @@ namespace behaviour_tree
 	{
 
 	private:
-		std::function<Status()> leaf_action_;
+		//std::function<Status()> leaf_action_;
 		std::string name_;
 
 	public:
 		~BtLeaf() override = default;
 		BtLeaf(std::string name, const std::function<Status()>& leaf_action) : leaf_action_(leaf_action), name_(name) {};
+	
 
 		Status Process() override;
 		void Reset() override {};
+
+		void SetAction(const std::function<Status()>& leaf_action)
+		{
+			leaf_action_ = leaf_action;
+		}
+
+		std::function<Status()> leaf_action_;
 
 	};
 

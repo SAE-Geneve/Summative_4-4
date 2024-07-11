@@ -3,7 +3,6 @@
 
 #include <iostream>
 
-#include "bt_tree/bt_node.h"
 
 using namespace behaviour_tree;
 
@@ -11,6 +10,7 @@ class BtSequence : public BtNodeList
 {
 public:
 	~BtSequence() override = default;
+
 
 	Status Process() override;
 
@@ -49,6 +49,7 @@ inline Status BtSequence::Process()
 	return Status::kFailure;
 
 }
+
 
 #endif
 
