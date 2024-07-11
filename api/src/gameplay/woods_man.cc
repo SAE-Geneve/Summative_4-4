@@ -26,11 +26,10 @@ Woodsman::~Woodsman()
 	std::cout << "What happens Woodsman ?" << std::endl;
 }
 
-
 Woodsman::Woodsman(const Woodsman& w) : Walker(w), tilemap_(w.tilemap_)
 {
 	stamina_ = w.stamina_;
-	//InitiateBehaviours();
+	InitiateBehaviours();
 }
 
 void Woodsman::DefineTexture()
