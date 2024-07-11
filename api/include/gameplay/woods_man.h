@@ -22,6 +22,8 @@ public:
 	void Tick();
 
 	behaviour_tree::Status SeekWood();
+	behaviour_tree::Status GatherWood();
+	behaviour_tree::Status BackHome();
 };
 
 #endif // WOODS_MAN_H

@@ -22,7 +22,9 @@ public:
 
 	void Generate();
 	std::vector<sf::Vector2f> GetWalkables();
-	sf::Vector2f GetClosestTree();
+
+	sf::Vector2f GetClosestTree(sf::Vector2f pos);
+	[[nodiscard]] bool GatherTree(sf::Vector2f pos);
 
 	std::function<void(Tile&)> ClickedTile;
 
@@ -31,6 +33,7 @@ private:
 	sf::Vector2u playground_tile_offset_u_;
 
 	std::vector<Tile> tiles_;
+	std::vector<sf::Vector2f> trees_;
 
 	Tile* tileSelected_;
 

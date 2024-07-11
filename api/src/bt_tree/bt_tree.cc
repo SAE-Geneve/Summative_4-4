@@ -10,7 +10,7 @@ BtTree::~BtTree()
 
 void BtTree::Tick()
 {
-	behaviour_tree::Status status;
+	Status status;
 
 	if(root_ != nullptr)
 		status = root_->Process();

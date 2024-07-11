@@ -5,6 +5,8 @@
 
 namespace behaviour_tree
 {
+	class BtLeaf;
+
 	enum class Status
 	{
 		kRunning,
@@ -19,19 +21,35 @@ namespace behaviour_tree
 		virtual ~BtNode() = default;
 		virtual Status Process() = 0;
 
-		virtual void AddNode(const BtNode& node) = 0;
-
 	};
 
 	class BtNodeList : public BtNode
 	{
+
 	protected:
-		std::vector<BtNode> children_;
+		int current_child_ = 0;
+		std::vector<BtNode*> children_;
 
 	public:
-		void AddNode(const BtNode& node) override;
+		~BtNodeList() override
+		{
+			for(const auto& ptr : children_)
+			{
+				delete ptr;
+			}
+		}
+		void AddNode(BtNode* node);
 
 	};
+
+
+	inline void BtNodeList::AddNode(BtNode* node)
+	{
+		// Controls ?
+		//std::unique_ptr<BtNode> truc = std::make_unique<BtLeaf>();
+
+		children_.push_back(node);
+	}
 
 }
 #endif // BT_NODE_H

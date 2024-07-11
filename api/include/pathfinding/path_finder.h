@@ -17,28 +17,33 @@ struct PathPoint
 	float g;
 	float h;
 
-	std::unique_ptr<PathPoint> parent;
+	//std::unique_ptr<PathPoint> parent;
+	PathPoint* parent;
 
 	// Ctor
 	PathPoint();
 
-	PathPoint(const PathPoint& p)
-	{
+	//PathPoint(const PathPoint& p)
+	//{
 
-		g = p.g;
-		h = p.h;
-		f = g + h;
+	//	g = p.g;
+	//	h = p.h;
+	//	f = g + h;
 
-		position = p.position;
+	//	position = p.position;
 
-		if(p.parent != nullptr)
-			parent = std::make_unique<PathPoint>(*p.parent);
+	//	if (p.parent != nullptr)
+	//	{
+	//		//parent = std::make_unique<PathPoint>(*p.parent);
+	//		parent = p.parent;
+	//	}
 
-	}
+	//}
 
 	PathPoint(float g, float h, sf::Vector2f position, const PathPoint& parent) : g(g), h(h), position(position)
 	{
-		this->parent = std::make_unique<PathPoint>(parent);
+		//this->parent = std::make_unique<PathPoint>(parent);
+		this->parent = new PathPoint(parent);
 		f = g + h;
 	}
 	PathPoint(float g, float h, sf::Vector2f position) : g(g), h(h), position(position)
@@ -47,10 +52,10 @@ struct PathPoint
 		f = g + h;
 	}
 
-	PathPoint& operator=(const PathPoint& t)
-	{
-		return *this;
-	}
+	//PathPoint& operator=(const PathPoint& t)
+	//{
+	//	return *this;
+	//}
 
 	// Methods
 	//int f() const { return g + h; } // Total cost function

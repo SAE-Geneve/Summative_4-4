@@ -66,7 +66,7 @@ int main()
             }
         };
 
-    Woodsman woodsman(window.getSize().x / 2 , window.getSize().y / 2, 200, map);
+    Woodsman woodsman(window.getSize().x / 2 , window.getSize().y / 2, 100, map);
     woodsman.InitiateBehaviours();
 
 

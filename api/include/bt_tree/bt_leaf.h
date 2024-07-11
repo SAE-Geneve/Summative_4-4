@@ -3,6 +3,7 @@
 
 #include <functional>
 #include <memory>
+#include <string>
 
 #include "bt_node.h"
 
@@ -13,16 +14,13 @@ namespace behaviour_tree
 
 	private:
 		std::function<Status()> leaf_action_;
-		std::unique_ptr<BtNode> child_;
+		std::string name_;
 
 	public:
 		~BtLeaf() override = default;
-		BtLeaf(const std::function<Status()>& leaf_action) : leaf_action_(leaf_action) {};
+		BtLeaf(std::string name, const std::function<Status()>& leaf_action) : leaf_action_(leaf_action), name_(name) {};
 
 		Status Process() override;
-		void AddNode(const BtNode& node) override {};
-
-		void AttachNode(std::unique_ptr<BtNode> node);
 
 	};
 }

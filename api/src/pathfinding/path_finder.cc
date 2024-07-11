@@ -17,7 +17,7 @@ namespace Pathfinder
 
 		while (point.parent != nullptr)
 		{
-			point = std::move(*point.parent);
+			point = *point.parent;
 			positions.insert(positions.begin(), point.position);
 		}
 

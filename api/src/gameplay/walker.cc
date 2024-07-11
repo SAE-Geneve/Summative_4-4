@@ -91,3 +91,4 @@ sf::Vector2f Walker::LastDestination() const
 	return destination_;
 }
 
+

@@ -18,6 +18,7 @@ private:
 	sf::Vector2f destination_;
 	std::chrono::time_point<std::chrono::steady_clock> last_time_;
 
+protected:
 	Path path_;
 
 public:

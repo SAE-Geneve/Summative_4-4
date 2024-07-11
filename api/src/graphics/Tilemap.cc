@@ -1,6 +1,7 @@
 #include <random>
 #include <SFML/Graphics/RenderTarget.hpp>
 
+#include "sfml_vec2f.h"
 #include "graphics/Tilemap.h"
 #include "graphics/ressource_manager.h"
 #include "../../../core/include/maths/perlin_noise.h"
@@ -37,14 +38,17 @@ void Tilemap::Generate()
 
 			double rng = perlin.octave2D_01(x, y, 4);
 			//std::cout << "Perlin noise value : " << rng << std::endl;
+			double tile_x = x * playground_tile_offset_u_.x;
+			double tile_y = y * playground_tile_offset_u_.y;
 
 			if (rng >= 0.4f)
 			{
-				tiles_.emplace_back(Tile::TileType::kGround, x * playground_tile_offset_u_.x, y * playground_tile_offset_u_.y, true);
+				tiles_.emplace_back(Tile::TileType::kGround, tile_x, tile_y, true);
 			}
 			else
 			{
-				tiles_.emplace_back(Tile::TileType::kForest, x * playground_tile_offset_u_.x, y * playground_tile_offset_u_.y, false);
+				tiles_.emplace_back(Tile::TileType::kForest, tile_x, tile_y, false);
+				trees_.emplace_back(tile_x, tile_y);
 			}
 
 		}
@@ -73,14 +77,44 @@ std::vector<sf::Vector2f> Tilemap::GetWalkables()
 
 }
 
-sf::Vector2f Tilemap::GetClosestTree()
+sf::Vector2f Tilemap::GetClosestTree(sf::Vector2f pos)
 {
-
 	sf::Vector2f closestTree;
 
+	float closest_tree_distance = std::numeric_limits<float>::infinity();
+
 	// TODO : fill what the closest tree is
+	std::for_each(trees_.begin(), trees_.end(), [&closest_tree_distance, &closestTree, pos](const sf::Vector2f& tree)
+		{
+
+			const float sq_dist = squaredMagnitude(tree - pos);
+
+			if(sq_dist < closest_tree_distance)
+			{
+				closestTree = tree;
+				closest_tree_distance = sq_dist;
+			}
+
+		});
 
 	return closestTree;
+
+}
+
+bool Tilemap::GatherTree(sf::Vector2f pos)
+{
+
+	auto tree = std::find_if(trees_.begin(), trees_.end(), [pos](const sf::Vector2f& t) { return pos == t; });
+
+	if(tree != trees_.end())
+	{
+		trees_.erase(tree);
+		return true;
+	}else
+	{
+		return false;
+	}
+
 
 }
 

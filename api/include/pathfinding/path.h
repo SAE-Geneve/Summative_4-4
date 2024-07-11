@@ -9,8 +9,7 @@ class Path
 private:
 	std::queue<sf::Vector2f> steps_;
 	sf::Vector2f next_step_;
-
-	sf::Vector2f destination_;
+	sf::Vector2f final_destination_;
 
 	bool is_available_ = false;
 	// TODO : async calculation (job system)
@@ -20,7 +19,7 @@ public:
 	bool IsEnded() const;
 	bool IsAvailable() const;
 	bool IsReady() const;
-	sf::Vector2f Destination() const;
+	sf::Vector2f FinalDestination() const;
 
 	sf::Vector2f GetNextStep();
 	void SetSteps(std::vector<sf::Vector2f> steps);
